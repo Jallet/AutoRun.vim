@@ -1,0 +1,37 @@
+*quickrun.txt* quickmaticly run code in vim with hotkeys and output to 
+quickfix window
+                                                       ~
+                 "           #                          
+  mmmm  m   m  mmm     mmm   #   m   m mm  m   m  m mm  
+ #" "#  #   #    #    #"  "  # m"    #"  " #   #  #"  # 
+ #   #  #   #    #    #      #"#     #     #   #  #   # 
+ "#m##  "mm"#  mm#mm  "#mm"  #  "m   #     "mm"#  #   # 
+     #                                                  
+     "                                                  
+   quickmaticly run code in vim with hotkeys and output to quickfix window.
+   Make "build, fix, build, test, fix, build,..." cycle faster and easier.
+
+author: Jallet
+Repo: https://github.com/Jallet/quickrun.vim
+License: MIT
+
+INTRODUCTION                          *quickrun* 
+This plugin enable you to compile, run or debug code (C, C++, Python, Shell)
+with one or two hotkeys, making "build, fix, build, test, fix, build,..." 
+cycle faster and easier. This plugin depends on asyncrun
+(https://github.com/skywind3000/asyncrun.vim) from 
+skywind3000 (https://twitter.com/skywind3000)
+and cgdb, if you want to use this plugin to debug C and C++ code.
+
+COMMANDS                              *quickrun:commands*
+                                      *quickrun:QuickRun*
+:QuickRun               Run code in current buffer asynchronously and output
+                        to the quickfix, automatically open quickfix
+                                      *quickrun:QuickDebug*
+:QuickDebug             Automatically compile code and open cgdb or gdb to
+                        debug, if the type of file in curren buffer isc or 
+                        cpp
+                                      *quickrun:QuickOpenArgs* 
+:QuickOpenArgs          Open the command line arguments configuration file, 
+                        which is used when executing code. You can edit the 
+                        file to write or modify command line arguments.

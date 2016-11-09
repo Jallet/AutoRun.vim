@@ -8,8 +8,8 @@ quickfix window
  "#m##  "mm"#  mm#mm  "#mm"  #  "m   #     "mm"#  #   # 
      #                                                  
      "                                                  
-   quickmaticly run code in vim with hotkeys and output to quickfix window.
-   Make "build, fix, build, test, fix, build,..." cycle faster and easier.
+quickmaticly run code in vim with hotkeys and output to quickfix window.
+Make "build, fix, build, test, fix, build,..." cycle faster and easier.
 
 author: Jallet
 Repo: https://github.com/Jallet/quickrun.vim

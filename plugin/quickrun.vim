@@ -2,11 +2,11 @@
 " Author: Liang Jiang
 " Email: jiangliang0811@gmail.com
 
-let s:args_path="./.args/"
+let s:args_path="./.args/%.args"
 
 func! s:RunPython()
   exec "w"
-  exec "AsyncRun ".s:args_path." 2>/dev/null | xargs python %"
+  exec "AsyncRun cat ".s:args_path." 2>/dev/null | xargs python %"
   exec "vertical 80 copen"
   exec "wincmd w"
 endfunc
@@ -15,7 +15,7 @@ endfunc
 func! s:RunGcc()
   exec "w"
   " exec "AsyncRun gcc % -o %<"
-  exec "AsyncRun gcc % -o %< && ".s:args_path." 2>/dev/null | xargs ./%<"
+  exec "AsyncRun gcc % -o %< && cat ".s:args_path." 2>/dev/null | xargs ./%<"
   exec "vertical 80 copen"
   exec "wincmd w"
 
@@ -30,7 +30,7 @@ endfunc
 "function to compile and runn C++ file
 func! s:RunGpp()
   exec "w"
-  exec "AsyncRun g++ % -o %< -g && ".s:args_path." 2>/dev/null | xargs ./%<"
+  exec "AsyncRun g++ % -o %< -g && cat ".s:args_path." 2>/dev/null | xargs ./%<"
   exec "vertical 80 copen"
   exec "wincmd w"
 endfunc
@@ -44,7 +44,7 @@ endfunc
 func! s:RunSH()
   exec "w"
   " exec "!chmod a+x %"
-  exec "AsyncRun chmod a+x % && ".s:args_path." 2>/dev/null | xargs ./%"
+  exec "AsyncRun chmod a+x % && cat ".s:args_path." 2>/dev/null | xargs ./%"
   exec "vertical 80 copen"
   exec "wincmd w"
 endfunc
@@ -89,8 +89,7 @@ func! Mkdir(path)
 endfunc
 
 func! OpenArgsFile()
-  :echo s:args_path
-  :execute "below split ".s:args_path."%.args"
+  :execute "below split ".s:args_path
 endfunc
 
 autocmd! BufWritePre *.args :call Mkdir(expand("<afile>:p:h"))
@@ -101,13 +100,5 @@ command! -nargs=0 QuickOpenArgs call OpenArgsFile()
 
 nnoremap <leader>r :QuickRun<cr>
 nnoremap <leader>d :QuickDebug<cr>
-nmap <leader>c :call :QuickOpenArgs<cr>
+nmap <leader>c :QuickOpenArgs<cr>
 
-" autocmd FileType python map <leader>r :call RunPython()<cr>
-" autocmd FileType sh map <leader>r :call RunSH()<cr>
-" autocmd FileType c map <leader>r :call RunGcc()<cr>
-" autocmd FileType c map <leader>d :call DebugGcc()<cr>
-" autocmd FileType cpp map <leader>r :call RunGpp()<cr>
-" autocmd FileType cpp map <leader>d :call DebugGpp()<cr>
-
-" Open arguments files of current file

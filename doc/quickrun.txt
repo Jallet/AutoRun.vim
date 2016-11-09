@@ -35,3 +35,18 @@ COMMANDS                              *quickrun:commands*
 :QuickOpenArgs          Open the command line arguments configuration file, 
                         which is used when executing code. You can edit the 
                         file to write or modify command line arguments.
+
+OPTIONS                               *quickrun:options*
+This plugin will behave pretty well with default options, but you can set 
+your own options if you want to.
+
+-----------------------------------------------------------------------------
+The *g:quickrun_vertical* option
+This option control whether open the quickfix window, vertically or 
+horizontally, '1' stands for vertically, '0' stands for horizontally.
+
+Default: '1'
+>
+  let g:quickrun_vertical = 1
+<
+-----------------------------------------------------------------------------

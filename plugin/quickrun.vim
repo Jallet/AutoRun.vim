@@ -2,21 +2,33 @@
 " Author: Liang Jiang
 " Email: jiangliang0811@gmail.com
 
+if !exists('g:quickrun_vertical')
+  let g:quickrun_vertical = 1
+endif
+
 let s:args_path="./.args/%.args"
 
-func! s:RunPython()
+func! s:RunPython(vertical, size)
   exec "w"
   exec "AsyncRun cat ".s:args_path." 2>/dev/null | xargs python %"
-  exec "vertical 80 copen"
+  if a:vertical== 1
+    exec "vertical copen ".a:size
+  else
+    exec "copen ".a:size
+  endif
   exec "wincmd w"
 endfunc
 
 "function to compile and runn C file
-func! s:RunGcc()
+func! s:RunGcc(vertical, size)
   exec "w"
   " exec "AsyncRun gcc % -o %<"
   exec "AsyncRun gcc % -o %< && cat ".s:args_path." 2>/dev/null | xargs ./%<"
-  exec "vertical 80 copen"
+  if a:vertical== 1
+    exec "vertical copen ".a:size
+  else
+    exec "copen ".a:size
+  endif
   exec "wincmd w"
 
 endfunc
@@ -28,10 +40,14 @@ endfunc
 
 
 "function to compile and runn C++ file
-func! s:RunGpp()
+func! s:RunGpp(vertical, size)
   exec "w"
   exec "AsyncRun g++ % -o %< -g && cat ".s:args_path." 2>/dev/null | xargs ./%<"
-  exec "vertical 80 copen"
+  if a:vertical== 1
+    exec "vertical copen ".a:size
+  else
+    exec "copen ".a:size
+  endif
   exec "wincmd w"
 endfunc
 
@@ -41,11 +57,15 @@ func! s:DebugGpp()
   exec "!cgdb %<"
 endfunc
 
-func! s:RunSH()
+func! s:RunSH(vertical, size)
   exec "w"
   " exec "!chmod a+x %"
   exec "AsyncRun chmod a+x % && cat ".s:args_path." 2>/dev/null | xargs ./%"
-  exec "vertical 80 copen"
+  if a:vertical== 1
+    exec "vertical copen ".a:size
+  else
+    exec "copen ".a:size
+  endif
   exec "wincmd w"
 endfunc
 
@@ -63,14 +83,20 @@ func! s:LastWindow()
 endfunction
 
 func! QuickRun()
+  if g:quickrun_vertical == 1
+    let l:size = winwidth(0) / 2
+  else
+    let l:size = winheight(0) / 2
+  endif
+
   if &ft == 'c'
-    call s:RunGcc()
+    call s:RunGcc(g:quickrun_vertical, l:size)
   elseif &ft == 'cpp'
-    call s:RunGpp()
+    call s:RunGpp(g:quickrun_vertical, l:size)
   elseif &ft == 'python'
-    call s:RunPython()
+    call s:RunPython(g:quickrun_vertical, l:size)
   elseif &ft == "sh"
-    call s:RunSH()
+    call s:RunSH(g:quickrun_vertical, l:size)
   endif
 endfunc
 

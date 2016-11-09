@@ -42,7 +42,7 @@ your own options if you want to.
 
 -----------------------------------------------------------------------------
 The *g:quickrun_vertical* option
-This option control whether open the quickfix window, vertically or 
+This option controls whether open the quickfix window, vertically or 
 horizontally, '1' stands for vertically, '0' stands for horizontally.
 
 Default: '1'
@@ -50,3 +50,18 @@ Default: '1'
   let g:quickrun_vertical = 1
 <
 -----------------------------------------------------------------------------
+The *g:quickrun_width* option
+This option controls the width of the opened quickfix window, default is 1/3
+of the width of the screen
+Default: '&columns / 3'
+>
+  let g:quickrun_width = &columns / 3
+<
+-----------------------------------------------------------------------------
+The *g:quickrun_height* option
+This option controls the height of the opened quickfix window, default is 1/2
+of the height of the screen
+Default: '&lines / 2'
+>
+  let g:quickrun_height = &lines / 2
+<

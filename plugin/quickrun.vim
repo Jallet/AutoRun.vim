@@ -6,6 +6,15 @@ if !exists('g:quickrun_vertical')
   let g:quickrun_vertical = 1
 endif
 
+if !exists('g:quickrun_width')
+  let g:quickrun_width = &columns / 3
+endif
+
+if !exists('g:quickrun_height')
+  let g:quickrun_height = &lines / 2
+endif
+
+
 let s:args_path="./.args/%.args"
 
 func! s:RunPython(vertical, size)
@@ -83,20 +92,20 @@ func! s:LastWindow()
 endfunction
 
 func! QuickRun()
+  let quickrun_size = 0
   if g:quickrun_vertical == 1
-    let l:size = winwidth(0) / 2
+    let l:quickrun_size = g:quickrun_width
   else
-    let l:size = winheight(0) / 2
+    let l:quickrun_size = g:quickrun_height
   endif
-
   if &ft == 'c'
-    call s:RunGcc(g:quickrun_vertical, l:size)
+    call s:RunGcc(g:quickrun_vertical, l:quickrun_size)
   elseif &ft == 'cpp'
-    call s:RunGpp(g:quickrun_vertical, l:size)
+    call s:RunGpp(g:quickrun_vertical, l:quickrun_size)
   elseif &ft == 'python'
-    call s:RunPython(g:quickrun_vertical, l:size)
+    call s:RunPython(g:quickrun_vertical, l:quickrun_size)
   elseif &ft == "sh"
-    call s:RunSH(g:quickrun_vertical, l:size)
+    call s:RunSH(g:quickrun_vertical, l:quickrun_size)
   endif
 endfunc
 

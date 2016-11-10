@@ -11,7 +11,7 @@ if !exists('g:quickrun_width')
 endif
 
 if !exists('g:quickrun_height')
-  let g:quickrun_height = &lines / 2
+  let g:quickrun_height = &lines / 3
 endif
 
 
@@ -23,9 +23,9 @@ func! s:RunPython(vertical, size)
   if a:vertical== 1
     exec "vertical copen ".a:size
   else
-    exec "copen ".a:size
+    exec "below copen ".a:size
   endif
-  exec "wincmd w"
+  exec "wincmd p"
 endfunc
 
 "function to compile and runn C file
@@ -36,9 +36,9 @@ func! s:RunGcc(vertical, size)
   if a:vertical== 1
     exec "vertical copen ".a:size
   else
-    exec "copen ".a:size
+    exec "below copen ".a:size
   endif
-  exec "wincmd w"
+  exec "wincmd p"
 
 endfunc
 func! s:DebugGcc()
@@ -55,9 +55,9 @@ func! s:RunGpp(vertical, size)
   if a:vertical== 1
     exec "vertical copen ".a:size
   else
-    exec "copen ".a:size
+    exec "below copen ".a:size
   endif
-  exec "wincmd w"
+  exec "wincmd p"
 endfunc
 
 func! s:DebugGpp()
@@ -73,9 +73,9 @@ func! s:RunSH(vertical, size)
   if a:vertical== 1
     exec "vertical copen ".a:size
   else
-    exec "copen ".a:size
+    exec "below copen ".a:size
   endif
-  exec "wincmd w"
+  exec "wincmd p"
 endfunc
 
 au BufEnter * call s:LastWindow()

@@ -41,13 +41,15 @@ This plugin will behave pretty well with default options, but you can set
 your own options if you want to.
 
 -----------------------------------------------------------------------------
-The *g:quickrun_vertical* option
+The *g:quickrun_mode* option
 This option controls whether open the quickfix window, vertically or 
-horizontally, '1' stands for vertically, '0' stands for horizontally.
+horizontally or dynamicly, choices are "vertical", "horizontal", "dynamic", 
+"dynamic" mode will choose the position of quickfix considering width of 
+current window dynamicly.
 
-Default: '1'
+Default: 'dynamic'
 >
-  let g:quickrun_vertical = 1
+  let g:quickrun_mode = 'dynamic'
 <
 -----------------------------------------------------------------------------
 The *g:quickrun_width* option
@@ -63,5 +65,5 @@ This option controls the height of the opened quickfix window, default is 1/2
 of the height of the screen
 Default: '&lines / 2'
 >
-  let g:quickrun_height = &lines / 2
+  let g:quickrun_height = &lines / 3
 <

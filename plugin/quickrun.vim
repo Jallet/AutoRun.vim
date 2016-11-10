@@ -2,40 +2,31 @@
 " Author: Liang Jiang
 " Email: jiangliang0811@gmail.com
 
-if !exists('g:quickrun_vertical')
-  let g:quickrun_vertical = 1
+if !exists('g:quickrun_mode')
+  let g:quickrun_mode = "dynamic"
 endif
-
-if !exists('g:quickrun_width')
-  let g:quickrun_width = &columns / 3
-endif
-
-if !exists('g:quickrun_height')
-  let g:quickrun_height = &lines / 3
-endif
-
 
 let s:args_path="./.args/%.args"
 
-func! s:RunPython(vertical, size)
+func! s:RunPython(mode, size)
   exec "w"
   exec "AsyncRun cat ".s:args_path." 2>/dev/null | xargs python %"
-  if a:vertical== 1
+  if a:mode== 'vertical'
     exec "vertical copen ".a:size
-  else
+  elseif a:mode == 'horizontal'
     exec "below copen ".a:size
   endif
   exec "wincmd p"
 endfunc
 
 "function to compile and runn C file
-func! s:RunGcc(vertical, size)
+func! s:RunGcc(mode, size)
   exec "w"
   " exec "AsyncRun gcc % -o %<"
   exec "AsyncRun gcc % -o %< && cat ".s:args_path." 2>/dev/null | xargs ./%<"
-  if a:vertical== 1
+  if a:mode== 'vertical'
     exec "vertical copen ".a:size
-  else
+  elseif a:mode == 'horizontal'
     exec "below copen ".a:size
   endif
   exec "wincmd p"
@@ -49,12 +40,12 @@ endfunc
 
 
 "function to compile and runn C++ file
-func! s:RunGpp(vertical, size)
+func! s:RunGpp(mode, size)
   exec "w"
   exec "AsyncRun g++ % -o %< -g && cat ".s:args_path." 2>/dev/null | xargs ./%<"
-  if a:vertical== 1
+  if a:mode== 'vertical'
     exec "vertical copen ".a:size
-  else
+  elseif a:mode == 'horizontal'
     exec "below copen ".a:size
   endif
   exec "wincmd p"
@@ -66,13 +57,13 @@ func! s:DebugGpp()
   exec "!cgdb %<"
 endfunc
 
-func! s:RunSH(vertical, size)
+func! s:RunSH(mode, size)
   exec "w"
   " exec "!chmod a+x %"
   exec "AsyncRun chmod a+x % && cat ".s:args_path." 2>/dev/null | xargs ./%"
-  if a:vertical== 1
+  if a:mode== 'vertical'
     exec "vertical copen ".a:size
-  else
+  elseif a:mode == 'horizontal'
     exec "below copen ".a:size
   endif
   exec "wincmd p"
@@ -92,20 +83,42 @@ func! s:LastWindow()
 endfunction
 
 func! QuickRun()
+  :execute "cclose"
   let quickrun_size = 0
-  if g:quickrun_vertical == 1
-    let l:quickrun_size = g:quickrun_width
+  let quickrun_mode = ""
+  if g:quickrun_mode == "vertical"
+    let l:quickrun_mode = "vertical"
+  elseif g:quickrun_mode == "horizontal"
+    let l:quickrun_mode = "horizontal"
   else
-    let l:quickrun_size = g:quickrun_height
+    if winwidth(0) > &columns / 2
+      let l:quickrun_mode = "vertical"
+    else
+      let l:quickrun_mode = "horizontal"
+    endif
+  endif
+  if l:quickrun_mode == "vertical"
+    if !exists('g:quickrun_width')
+      let l:quickrun_size = winwidth(0) / 3
+    else
+      let l:quickrun_size = g:quickrun_width
+    endif
+
+  elseif l:quickrun_mode == "horizontal"
+    if !exists('g:quickrun_height')
+      let l:quickrun_size = winheight(0) / 3
+    else
+      let l:quickrun_size = g:quickrun_height
+    endif
   endif
   if &ft == 'c'
-    call s:RunGcc(g:quickrun_vertical, l:quickrun_size)
+    call s:RunGcc(l:quickrun_mode, l:quickrun_size)
   elseif &ft == 'cpp'
-    call s:RunGpp(g:quickrun_vertical, l:quickrun_size)
+    call s:RunGpp(l:quickrun_mode, l:quickrun_size)
   elseif &ft == 'python'
-    call s:RunPython(g:quickrun_vertical, l:quickrun_size)
+    call s:RunPython(l:quickrun_mode, l:quickrun_size)
   elseif &ft == "sh"
-    call s:RunSH(g:quickrun_vertical, l:quickrun_size)
+    call s:RunSH(l:quickrun_mode, l:quickrun_size)
   endif
 endfunc
 

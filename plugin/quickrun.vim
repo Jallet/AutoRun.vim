@@ -69,6 +69,17 @@ func! s:RunSH(mode, size)
   exec "wincmd p"
 endfunc
 
+func! s:RunLua(mode, size)
+  exec "w"
+  exec "AsyncRun cat ".s:args_path." 2>/dev/null | xargs th %"
+  if a:mode== 'vertical'
+    exec "vertical copen ".a:size
+  elseif a:mode == 'horizontal'
+    exec "below copen ".a:size
+  endif
+  exec "wincmd p"
+endfunc
+
 au BufEnter * call s:LastWindow()
 
 "Close quickfix if it's the last window
@@ -119,6 +130,8 @@ func! QuickRun()
     call s:RunPython(l:quickrun_mode, l:quickrun_size)
   elseif &ft == "sh"
     call s:RunSH(l:quickrun_mode, l:quickrun_size)
+  elseif &ft == 'lua'
+    call s:RunLua(l:quickrun_mode, l:quickrun_size)
   endif
 endfunc
 

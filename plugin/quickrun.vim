@@ -153,13 +153,57 @@ func! OpenArgsFile()
   :execute "below split ".s:args_path
 endfunc
 
+function! QuickToggleOutput(forced)
+  if exists("g:qfix_win") && a:forced == 0
+    cclose
+    unlet g:qfix_win
+  else
+    let quickrun_size = 0
+    let quickrun_mode = ""
+    if g:quickrun_mode == "vertical"
+      let l:quickrun_mode = "vertical"
+    elseif g:quickrun_mode == "horizontal"
+      let l:quickrun_mode = "horizontal"
+    else
+      if winwidth(0) > &columns / 2
+        let l:quickrun_mode = "vertical"
+      else
+        let l:quickrun_mode = "horizontal"
+      endif
+    endif
+    if l:quickrun_mode == "vertical"
+      if !exists('g:quickrun_width')
+        let l:quickrun_size = winwidth(0) / 3
+      else
+        let l:quickrun_size = g:quickrun_width
+      endif
+
+    elseif l:quickrun_mode == "horizontal"
+      if !exists('g:quickrun_height')
+        let l:quickrun_size = winheight(0) / 3
+      else
+        let l:quickrun_size = g:quickrun_height
+      endif
+    endif
+    if l:quickrun_mode == 'vertical'
+      exec "vertical copen ".l:quickrun_size
+    elseif l:quickrun_mode == 'horizontal'
+      exec "below copen ".l:quickrun_size
+    endif
+    let g:qfix_win = bufnr("$")
+  endif
+endfunction
+
+
 autocmd! BufWritePre *.args :call Mkdir(expand("<afile>:p:h"))
 
 command! -nargs=0 QuickRun call QuickRun()
 command! -nargs=0 QuickDebug call QuickDebug()
 command! -nargs=0 QuickOpenArgs call OpenArgsFile()
+command! -bang -nargs=? QuickToggleOutput call QuickToggleOutput(<bang>0)
 
 nnoremap <leader>r :QuickRun<cr>
 nnoremap <leader>d :QuickDebug<cr>
 nmap <leader>c :QuickOpenArgs<cr>
+nmap <leader><leader>c :QuickToggleOutput<cr>
 

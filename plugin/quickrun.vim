@@ -133,6 +133,7 @@ func! QuickRun()
   elseif &ft == 'lua'
     call s:RunLua(l:quickrun_mode, l:quickrun_size)
   endif
+  let g:qfix_win = bufnr("$")
 endfunc
 
 func! QuickDebug()

@@ -53,11 +53,11 @@ Default: 'dynamic'
 <
 -----------------------------------------------------------------------------
 The *g:quickrun_width* option
-This option controls the width of the opened quickfix window, default is 1/3
+This option controls the width of the opened quickfix window, default is 1/2
 of the width of the screen
-Default: '&columns / 3'
+Default: '&columns / 2'
 >
-  let g:quickrun_width = &columns / 3
+  let g:quickrun_width = &columns / 2
 <
 -----------------------------------------------------------------------------
 The *g:quickrun_height* option
@@ -65,5 +65,5 @@ This option controls the height of the opened quickfix window, default is 1/2
 of the height of the screen
 Default: '&lines / 2'
 >
-  let g:quickrun_height = &lines / 3
+  let g:quickrun_height = &lines / 2
 <

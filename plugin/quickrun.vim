@@ -174,14 +174,14 @@ function! QuickToggleOutput(forced)
     endif
     if l:quickrun_mode == "vertical"
       if !exists('g:quickrun_width')
-        let l:quickrun_size = winwidth(0) / 3
+        let l:quickrun_size = winwidth(0) / 2
       else
         let l:quickrun_size = g:quickrun_width
       endif
 
     elseif l:quickrun_mode == "horizontal"
       if !exists('g:quickrun_height')
-        let l:quickrun_size = winheight(0) / 3
+        let l:quickrun_size = winheight(0) / 2
       else
         let l:quickrun_size = g:quickrun_height
       endif

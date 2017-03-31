@@ -6,11 +6,26 @@ if !exists('g:quickrun_mode')
   let g:quickrun_mode = "dynamic"
 endif
 
-let s:args_path="./.args/%.args"
+let s:args_path="./.quickrun/args/".expand('%').'.args'
+let s:input_path="./.quickrun/input/".expand('%').'.input'
 
 func! s:RunPython(mode, size)
   exec "w"
-  exec "AsyncRun cat ".s:args_path." 2>/dev/null | xargs python %"
+  let command_str = "AsyncRun "
+  if filereadable(s:args_path) == 1
+    echo "command exist"
+    let l:command_str = l:command_str."xargs -a ./".s:args_path." python %"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  else
+    echo "Command not exist"
+    let l:command_str = l:command_str." python %"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  endif
+  exec l:command_str
   if a:mode== 'vertical'
     exec "vertical copen ".a:size
   elseif a:mode == 'horizontal'
@@ -22,8 +37,21 @@ endfunc
 "function to compile and runn C file
 func! s:RunGcc(mode, size)
   exec "w"
-  " exec "AsyncRun gcc % -o %<"
-  exec "AsyncRun gcc % -o %< && cat ".s:args_path." 2>/dev/null | xargs ./%<"
+  let command_str = "AsyncRun gcc % -o %< && "
+  if filereadable(s:args_path) == 1
+    echo "command exist"
+    let l:command_str = l:command_str."xargs -a ./".s:args_path." ./%<"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  else
+    echo "Command not exist"
+    let l:command_str = l:command_str." ./%<"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  endif
+  exec l:command_str
   if a:mode== 'vertical'
     exec "vertical copen ".a:size
   elseif a:mode == 'horizontal'
@@ -42,7 +70,21 @@ endfunc
 "function to compile and runn C++ file
 func! s:RunGpp(mode, size)
   exec "w"
-  exec "AsyncRun g++ % -o %< -g && cat ".s:args_path." 2>/dev/null | xargs ./%<"
+  let command_str = "AsyncRun g++ % -o %< && "
+  if filereadable(s:args_path) == 1
+    echo "command exist"
+    let l:command_str = l:command_str."xargs -a ./".s:args_path." ./%<"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  else
+    echo "Command not exist"
+    let l:command_str = l:command_str." ./%<"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  endif
+  exec l:command_str
   if a:mode== 'vertical'
     exec "vertical copen ".a:size
   elseif a:mode == 'horizontal'
@@ -59,8 +101,21 @@ endfunc
 
 func! s:RunSH(mode, size)
   exec "w"
-  " exec "!chmod a+x %"
-  exec "AsyncRun chmod a+x % && cat ".s:args_path." 2>/dev/null | xargs ./%"
+  let command_str = "AsyncRun chmod a+x % && "
+  if filereadable(s:args_path) == 1
+    echo "command exist"
+    let l:command_str = l:command_str."xargs -a ./".s:args_path." ./%"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  else
+    echo "Command not exist"
+    let l:command_str = l:command_str." ./%"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  endif
+  exec l:command_str
   if a:mode== 'vertical'
     exec "vertical copen ".a:size
   elseif a:mode == 'horizontal'
@@ -71,7 +126,21 @@ endfunc
 
 func! s:RunLua(mode, size)
   exec "w"
-  exec "AsyncRun cat ".s:args_path." 2>/dev/null | xargs th %"
+  let command_str = "AsyncRun chmod a+x % && "
+  if filereadable(s:args_path) == 1
+    echo "command exist"
+    let l:command_str = l:command_str."xargs -a ./".s:args_path." th %"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  else
+    echo "Command not exist"
+    let l:command_str = l:command_str." th %"
+    if filereadable(s:input_path) == 1
+      let l:command_str = l:command_str." < ".s:input_path
+    endif
+  endif
+  exec l:command_str
   if a:mode== 'vertical'
     exec "vertical copen ".a:size
   elseif a:mode == 'horizontal'
@@ -153,6 +222,9 @@ endfunc
 func! OpenArgsFile()
   :execute "below split ".s:args_path
 endfunc
+func! OpenInputFile()
+  :execute "below split ".s:input_path
+endfunc
 
 function! QuickToggleOutput(forced)
   if exists("g:qfix_win") && a:forced == 0
@@ -197,14 +269,17 @@ endfunction
 
 
 autocmd! BufWritePre *.args :call Mkdir(expand("<afile>:p:h"))
+autocmd! BufWritePre *.input :call Mkdir(expand("<afile>:p:h"))
 
 command! -nargs=0 QuickRun call QuickRun()
 command! -nargs=0 QuickDebug call QuickDebug()
 command! -nargs=0 QuickOpenArgs call OpenArgsFile()
+command! -nargs=0 QuickOpenInput call OpenInputFile()
 command! -bang -nargs=? QuickToggleOutput call QuickToggleOutput(<bang>0)
 
 nnoremap <leader>r :QuickRun<cr>
 nnoremap <leader>d :QuickDebug<cr>
 nmap <leader>c :QuickOpenArgs<cr>
+nmap <leader>b :QuickOpenInput<cr>
 nmap <leader><leader>c :QuickToggleOutput<cr>
 

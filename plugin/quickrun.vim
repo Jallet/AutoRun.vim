@@ -290,6 +290,7 @@ command! -bang -nargs=? QuickToggleOutput call QuickToggleOutput(<bang>0)
 nnoremap <leader>r :QuickRun<cr>
 nnoremap <leader>d :QuickDebug<cr>
 nmap <leader>c :QuickOpenArgs<cr>
-nmap <leader>b :QuickOpenInput<cr>
-nmap <leader><leader>c :QuickToggleOutput<cr>
+nmap <leader>i :QuickOpenInput<cr>
+nmap <leader>o :QuickToggleOutput<cr>
+
 

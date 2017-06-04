@@ -12,16 +12,16 @@ func! s:RunPython(mode, size)
   let input_path="./.quickrun/input/".expand('%').'.input'
   exec "w"
   let command_str = "AsyncRun "
-  if filereadable(l:args_path) == 1
+  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
     echo "command exist"
     let l:command_str = l:command_str."xargs -a ./".l:args_path." python %"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." python %"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   endif
@@ -40,16 +40,16 @@ func! s:RunGcc(mode, size)
   let input_path="./.quickrun/input/".expand('%').'.input'
   exec "w"
   let command_str = "AsyncRun gcc % -o %< && "
-  if filereadable(l:args_path) == 1
+  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
     echo "command exist"
     let l:command_str = l:command_str."xargs -a ./".l:args_path." ./%<"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." ./%<"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   endif
@@ -75,16 +75,16 @@ func! s:RunGpp(mode, size)
   let input_path="./.quickrun/input/".expand('%').'.input'
   exec "w"
   let command_str = "AsyncRun g++ % -o %< && "
-  if filereadable(l:args_path) == 1
+  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
     echo "command exist"
     let l:command_str = l:command_str."xargs -a ./".l:args_path." ./%<"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." ./%<"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   endif
@@ -108,16 +108,16 @@ func! s:RunSH(mode, size)
   let input_path="./.quickrun/input/".expand('%').'.input'
   exec "w"
   let command_str = "AsyncRun chmod a+x % && "
-  if filereadable(l:args_path) == 1
+  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
     echo "command exist"
     let l:command_str = l:command_str."xargs -a ./".l:args_path." ./%"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." ./%"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   endif
@@ -135,16 +135,16 @@ func! s:RunLua(mode, size)
   let input_path="./.quickrun/input/".expand('%').'.input'
   exec "w"
   let command_str = "AsyncRun chmod a+x % && "
-  if filereadable(l:args_path) == 1
+  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
     echo "command exist"
     let l:command_str = l:command_str."xargs -a ./".l:args_path." th %"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." th %"
-    if filereadable(l:input_path) == 1
+    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
       let l:command_str = l:command_str." < ".l:input_path
     endif
   endif

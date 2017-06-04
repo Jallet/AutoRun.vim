@@ -34,6 +34,21 @@ func! s:RunPython(mode, size)
   exec "wincmd p"
 endfunc
 
+func! s:DebugPython()
+  let args_path="./.quickrun/args/".expand('%').'.args'
+  let input_path="./.quickrun/input/".expand('%').'.input'
+  exec "w"
+  let command_str = "!"
+  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
+    echo "command exist"
+    let l:command_str = l:command_str."xargs -a ./".l:args_path." python -m pudb %"
+  else
+    echo "Command not exist"
+    let l:command_str = l:command_str."python -m pudb %"
+  endif
+  exec l:command_str
+endfunc
+
 "function to compile and runn C file
 func! s:RunGcc(mode, size)
   let args_path="./.quickrun/args/".expand('%').'.args'
@@ -218,6 +233,8 @@ func! QuickDebug()
     call s:DebugGcc()
   elseif &ft == 'cpp'
     call s:DebugGpp()
+  elseif &ft == 'python'
+    call s:DebugPython()
   endif
 endfun
 

@@ -287,10 +287,10 @@ command! -nargs=0 QuickOpenArgs call OpenArgsFile()
 command! -nargs=0 QuickOpenInput call OpenInputFile()
 command! -bang -nargs=? QuickToggleOutput call QuickToggleOutput(<bang>0)
 
-nnoremap <leader>r :QuickRun<cr>
-nnoremap <leader>d :QuickDebug<cr>
-nmap <leader>c :QuickOpenArgs<cr>
-nmap <leader>i :QuickOpenInput<cr>
-nmap <leader>o :QuickToggleOutput<cr>
+nnoremap <leader><leader>r :QuickRun<cr>
+nnoremap <leader><leader>d :QuickDebug<cr>
+nmap <leader><leader>c :QuickOpenArgs<cr>
+nmap <leader><leader>i :QuickOpenInput<cr>
+nmap <leader><leader>o :QuickToggleOutput<cr>
 
 

@@ -309,5 +309,6 @@ nnoremap <leader><leader>d :QuickDebug<cr>
 nmap <leader><leader>c :QuickOpenArgs<cr>
 nmap <leader><leader>i :QuickOpenInput<cr>
 nmap <leader><leader>o :QuickToggleOutput<cr>
+nnoremap <leader><leader>s :AsyncStop<CR>
 
 

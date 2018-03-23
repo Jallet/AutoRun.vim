@@ -8,21 +8,21 @@ endif
 
 
 func! s:RunPython(mode, size)
-  let args_path="./.quickrun/args/".expand('%').'.args'
-  let input_path="./.quickrun/input/".expand('%').'.input'
+  let args_file=expand('%:h').'/.quickrun/args/'.expand('%:t').'.args'
+  let input_file=expand('%:h').'/.quickrun/input/'.expand('%:t').'.input'
   exec "w"
   let command_str = "AsyncRun "
-  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
+  if filereadable(l:args_file)  == 1 && empty(readfile(l:args_file)) == 0
     echo "command exist"
-    let l:command_str = l:command_str."xargs -a ./".l:args_path." python %"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    let l:command_str = l:command_str."xargs -a ./".l:args_file." python %"
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." python %"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   endif
   exec l:command_str
@@ -35,13 +35,13 @@ func! s:RunPython(mode, size)
 endfunc
 
 func! s:DebugPython()
-  let args_path="./.quickrun/args/".expand('%').'.args'
-  let input_path="./.quickrun/input/".expand('%').'.input'
+  let args_file=expand('%:h').'/.quickrun/args/'.expand('%:t').'.args'
+  let input_file=expand('%:h').'/.quickrun/input/'.expand('%:t').'.input'
   exec "w"
   let command_str = "!"
-  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
+  if filereadable(l:args_file)  == 1 && empty(readfile(l:args_file)) == 0
     echo "command exist"
-    let l:command_str = l:command_str."xargs -a ./".l:args_path." python -m pudb %"
+    let l:command_str = l:command_str."xargs -a ./".l:args_file." python -m pudb %"
   else
     echo "Command not exist"
     let l:command_str = l:command_str."python -m pudb %"
@@ -51,21 +51,21 @@ endfunc
 
 "function to compile and runn C file
 func! s:RunGcc(mode, size)
-  let args_path="./.quickrun/args/".expand('%').'.args'
-  let input_path="./.quickrun/input/".expand('%').'.input'
+  let args_file=expand('%:h').'/.quickrun/args/'.expand('%:t').'.args'
+  let input_file=expand('%:h').'/.quickrun/input/'.expand('%:t').'.input'
   exec "w"
   let command_str = "AsyncRun gcc % -o %< && "
-  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
+  if filereadable(l:args_file)  == 1 && empty(readfile(l:args_file)) == 0
     echo "command exist"
-    let l:command_str = l:command_str."xargs -a ./".l:args_path." ./%<"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    let l:command_str = l:command_str."xargs -a ./".l:args_file." ./%<"
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." ./%<"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   endif
   exec l:command_str
@@ -86,21 +86,21 @@ endfunc
 
 "function to compile and runn C++ file
 func! s:RunGpp(mode, size)
-  let args_path="./.quickrun/args/".expand('%').'.args'
-  let input_path="./.quickrun/input/".expand('%').'.input'
+  let args_file=expand('%:h').'/.quickrun/args/'.expand('%:t').'.args'
+  let input_file=expand('%:h').'/.quickrun/input/'.expand('%:t').'.input'
   exec "w"
   let command_str = "AsyncRun g++ % -o %< && "
-  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
+  if filereadable(l:args_file)  == 1 && empty(readfile(l:args_file)) == 0
     echo "command exist"
-    let l:command_str = l:command_str."xargs -a ./".l:args_path." ./%<"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    let l:command_str = l:command_str."xargs -a ./".l:args_file." ./%<"
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." ./%<"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   endif
   exec l:command_str
@@ -119,21 +119,21 @@ func! s:DebugGpp()
 endfunc
 
 func! s:RunSH(mode, size)
-  let args_path="./.quickrun/args/".expand('%').'.args'
-  let input_path="./.quickrun/input/".expand('%').'.input'
+  let args_file=expand('%:h').'/.quickrun/args/'.expand('%:t').'.args'
+  let input_file=expand('%:h').'/.quickrun/input/'.expand('%:t').'.input'
   exec "w"
   let command_str = "AsyncRun chmod a+x % && "
-  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
+  if filereadable(l:args_file)  == 1 && empty(readfile(l:args_file)) == 0
     echo "command exist"
-    let l:command_str = l:command_str."xargs -a ./".l:args_path." ./%"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    let l:command_str = l:command_str."xargs -a ./".l:args_file." ./%"
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." ./%"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   endif
   exec l:command_str
@@ -146,21 +146,21 @@ func! s:RunSH(mode, size)
 endfunc
 
 func! s:RunLua(mode, size)
-  let args_path="./.quickrun/args/".expand('%').'.args'
-  let input_path="./.quickrun/input/".expand('%').'.input'
+  let args_file=expand('%:h').'/.quickrun/args/'.expand('%:t').'.args'
+  let input_file=expand('%:h').'/.quickrun/input/'.expand('%:t').'.input'
   exec "w"
   let command_str = "AsyncRun chmod a+x % && "
-  if filereadable(l:args_path)  == 1 && empty(readfile(l:args_path)) == 0
+  if filereadable(l:args_file)  == 1 && empty(readfile(l:args_file)) == 0
     echo "command exist"
-    let l:command_str = l:command_str."xargs -a ./".l:args_path." th %"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    let l:command_str = l:command_str."xargs -a ./".l:args_file." th %"
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   else
     echo "Command not exist"
     let l:command_str = l:command_str." th %"
-    if filereadable(l:input_path) == 1 && empty(readfile(l:input_path)) == 0
-      let l:command_str = l:command_str." < ".l:input_path
+    if filereadable(l:input_file) == 1 && empty(readfile(l:input_file)) == 0
+      let l:command_str = l:command_str." < ".l:input_file
     endif
   endif
   exec l:command_str
@@ -245,12 +245,12 @@ func! Mkdir(path)
 endfunc
 
 func! OpenArgsFile()
-  let args_path="./.quickrun/args/".expand('%').'.args'
-  :execute "below split ".l:args_path
+  let args_file=expand('%:h').'/.quickrun/args/'.expand('%:t').'.args'
+  :execute "below split ".l:args_file
 endfunc
 func! OpenInputFile()
-  let input_path="./.quickrun/input/".expand('%').'.input'
-  :execute "below split ".l:input_path
+  let input_file=expand('%:h').'/.quickrun/input/'.expand('%:t').'.input'
+  :execute "below split ".l:input_file
 endfunc
 
 function! QuickToggleOutput(forced)
